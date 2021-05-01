@@ -9,7 +9,7 @@ namespace GTAV
     class MainMenuV
     {
 
-        public Functions funcs;
+        public Functions fn;
 
         public ObjectPool Pool = new ObjectPool();
         public NativeMenu UI = new NativeMenu("Syn'x Mod Menu", "WIP");
@@ -27,13 +27,15 @@ namespace GTAV
 
         public NativeMenu VehicleUI = new NativeMenu("Vehicle Menu", "Vehicles");
         public NativeSubmenuItem VehicleSubMenuItem;
-        public NativeMenu VehicleSpawnerUI = new NativeMenu("Vehcile Spanwer", "Vehicle Spawner");
+        public NativeMenu VehicleSpawnerUI = new NativeMenu("Vehicle Spanwer", "Vehicle Spawner");
         public NativeSubmenuItem VehicleSpawnerSubMenuItem;
         public NativeItem RepairVehicle = new NativeItem("Repair Vehicle");
+        public NativeCheckboxItem SpawnInVehicle = new NativeCheckboxItem("Spawn in Vehicle");
+
         public MainMenuV()
         {
 
-            funcs = new Functions(this);
+            fn = new Functions(this);
 
             CreateSubMenuItems();
             LinkEvents();
@@ -64,8 +66,8 @@ namespace GTAV
             Pool.Add(VehicleSpawnerUI);
             VehicleUI.Add(VehicleSpawnerSubMenuItem);
             VehicleUI.Add(RepairVehicle);
+            VehicleSpawnerUI.Add(SpawnInVehicle);
             CreateVehicleSpawners();
-
         }
 
         private void CreateVehicleSpawners()
@@ -77,24 +79,29 @@ namespace GTAV
 
                 LI.Activated += (object sender, EventArgs e) =>
                 {
-                    World.CreateVehicle(LI.SelectedItem, (Game.Player.Character.Position + Game.Player.Character.ForwardVector * 3));
+                    Vehicle newVehicle = World.CreateVehicle(LI.SelectedItem, (fn.GetCharacter().Position + fn.GetCharacter().ForwardVector * 3), fn.GetCharacter().Heading);
+
+                    if (SpawnInVehicle.Checked && fn.GetCurrentVehicle() != null) {
+                        fn.GetCurrentVehicle().Delete();
+                        fn.GetCharacter().SetIntoVehicle(newVehicle, VehicleSeat.Driver);
+                    }
                 };
             }
         }
 
-    private void LinkEvents()
+        private void LinkEvents()
         {
             /* Player UI */
-            GodMode.CheckboxChanged += funcs.GodMode;
-            WantedLevel.Activated += funcs.WantedLevel;
+            GodMode.CheckboxChanged += fn.GodMode;
+            WantedLevel.Activated += fn.WantedLevel;
 
             /* Weapon UI */
-            GiveWeapon.Activated += funcs.GiveWeapon;
-            GiveAllWeapons.Activated += funcs.GiveAllWeapons;
-            RemoveAllWeapons.Activated += funcs.RemoveAllWeapons;
+            GiveWeapon.Activated += fn.GiveWeapon;
+            GiveAllWeapons.Activated += fn.GiveAllWeapons;
+            RemoveAllWeapons.Activated += fn.RemoveAllWeapons;
 
             /* Vehcile UI */
-            RepairVehicle.Activated += funcs.RepairCar;
+            RepairVehicle.Activated += fn.RepairCar;
         }
     }
 }

@@ -111,5 +111,30 @@ namespace GTAV
         {
             Game.Player.Character.Weapons.RemoveAll();
         }
+
+        /*
+         * 
+         * 
+         * MISC 
+         * 
+         * FUNCTIONS
+         * 
+         * 
+         */
+
+        public Player GetPlayer()
+        {
+            return Game.Player;
+        }
+
+        public Ped GetCharacter()
+        {
+            return Game.Player.Character;
+        }
+
+        public Vehicle GetCurrentVehicle()
+        {
+            return Game.Player.Character.CurrentVehicle;
+        }
     }
 }
