@@ -32,7 +32,7 @@ namespace GTAV
 
         public void onKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.F5)
+            if (e.KeyCode == Keys.NumPad1)
             {
                 ToggleMenu();
             }
@@ -61,9 +61,8 @@ namespace GTAV
 
         public void RepairCar(object sender, EventArgs e)
         {
-            Vehicle currentVehicle = GetCurrentVehicle();
-            if (currentVehicle != null)
-                currentVehicle.Repair();
+            if (CurrentVehicle != null)
+                CurrentVehicle.Repair();
         }
 
         /*
@@ -78,12 +77,12 @@ namespace GTAV
 
         public void GodMode(object sender, EventArgs e)
         {
-            GetPlayer().IsInvincible ^= true;
+            Player.IsInvincible ^= true;
         }
 
         public void WantedLevel(object sender, EventArgs e)
         {
-            GetPlayer().WantedLevel = Menu.WantedLevel.SelectedItem;
+            Player.WantedLevel = Menu.WantedLevel.SelectedItem;
         }
 
         /*
@@ -98,20 +97,20 @@ namespace GTAV
 
         public void GiveWeapon(object sender, EventArgs e)
         {
-            GetCharacter().Weapons.Give(Menu.GiveWeapon.SelectedItem, 999, true, true);
+            Character.Weapons.Give(Menu.GiveWeapon.SelectedItem, 999, true, true);
         }
 
         public void GiveAllWeapons(object sender, EventArgs e)
         {
             foreach(WeaponHash weapon in (WeaponHash[])Enum.GetValues(typeof(WeaponHash)))
             {
-                GetCharacter().Weapons.Give(weapon, 999, false, true);
+                Character.Weapons.Give(weapon, 999, false, true);
             }
         }
 
         public void RemoveAllWeapons(object sender, EventArgs e)
         {
-            GetCharacter().Weapons.RemoveAll();
+            Character.Weapons.RemoveAll();
         }
 
         /*
@@ -124,19 +123,9 @@ namespace GTAV
          * 
          */
 
-        public Player GetPlayer()
-        {
-            return Game.Player;
-        }
+        public Player Player { get; } = Game.Player;
+        public Ped Character { get; } = Game.Player.Character;
+        public Vehicle CurrentVehicle { get; } = Game.Player.Character.CurrentVehicle;
 
-        public Ped GetCharacter()
-        {
-            return Game.Player.Character;
-        }
-
-        public Vehicle GetCurrentVehicle()
-        {
-            return Game.Player.Character.CurrentVehicle;
-        }
     }
 }

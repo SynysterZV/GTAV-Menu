@@ -79,11 +79,12 @@ namespace GTAV
 
                 LI.Activated += (object sender, EventArgs e) =>
                 {
-                    Vehicle newVehicle = World.CreateVehicle(LI.SelectedItem, (fn.GetCharacter().Position + fn.GetCharacter().ForwardVector * 3), fn.GetCharacter().Heading);
+                    Vehicle newVehicle = World.CreateVehicle(LI.SelectedItem, (fn.Character.Position + fn.Character.ForwardVector * 3), fn.Character.Heading);
 
-                    if (SpawnInVehicle.Checked && fn.GetCurrentVehicle() != null) {
-                        fn.GetCurrentVehicle().Delete();
-                        fn.GetCharacter().SetIntoVehicle(newVehicle, VehicleSeat.Driver);
+                    if (SpawnInVehicle.Checked) {
+                        if (fn.CurrentVehicle != null)
+                            fn.CurrentVehicle.Delete();
+                        fn.Character.SetIntoVehicle(newVehicle, VehicleSeat.Driver);
                     }
                 };
             }
