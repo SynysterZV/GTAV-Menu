@@ -9,6 +9,10 @@ namespace GTAV
     {
         public MainMenuV Menu;
 
+        public Player Player { get; } = Game.Player;
+        public Ped Character { get; } = Game.Player.Character;
+        public Vehicle CurrentVehicle { get; } = Game.Player.Character.CurrentVehicle;
+
         public Functions(MainMenuV menu)
         {
             Menu = menu;
@@ -112,20 +116,5 @@ namespace GTAV
         {
             Character.Weapons.RemoveAll();
         }
-
-        /*
-         * 
-         * 
-         * MISC 
-         * 
-         * FUNCTIONS
-         * 
-         * 
-         */
-
-        public Player Player { get; } = Game.Player;
-        public Ped Character { get; } = Game.Player.Character;
-        public Vehicle CurrentVehicle { get; } = Game.Player.Character.CurrentVehicle;
-
     }
 }
