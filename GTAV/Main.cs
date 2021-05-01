@@ -7,8 +7,8 @@ namespace GTAV
         readonly MainMenuV Menu = new MainMenuV();
         public Main()
         {
-            Tick += Menu.funcs.onTick;
-            KeyDown += Menu.funcs.onKeyDown;
+            Tick += Menu.fn.onTick;
+            KeyDown += Menu.fn.onKeyDown;
         }
     }
 }
