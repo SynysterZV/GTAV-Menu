@@ -61,7 +61,9 @@ namespace GTAV
 
         public void RepairCar(object sender, EventArgs e)
         {
-            Game.Player.Character.CurrentVehicle.Repair();
+            Vehicle currentVehicle = GetCurrentVehicle();
+            if (currentVehicle != null)
+                currentVehicle.Repair();
         }
 
         /*
@@ -76,12 +78,12 @@ namespace GTAV
 
         public void GodMode(object sender, EventArgs e)
         {
-            Game.Player.IsInvincible ^= true;
+            GetPlayer().IsInvincible ^= true;
         }
 
         public void WantedLevel(object sender, EventArgs e)
         {
-            Game.Player.WantedLevel = Menu.WantedLevel.SelectedItem;
+            GetPlayer().WantedLevel = Menu.WantedLevel.SelectedItem;
         }
 
         /*
@@ -96,20 +98,20 @@ namespace GTAV
 
         public void GiveWeapon(object sender, EventArgs e)
         {
-            Game.Player.Character.Weapons.Give(Menu.GiveWeapon.SelectedItem, 999, true, true);
+            GetCharacter().Weapons.Give(Menu.GiveWeapon.SelectedItem, 999, true, true);
         }
 
         public void GiveAllWeapons(object sender, EventArgs e)
         {
             foreach(WeaponHash weapon in (WeaponHash[])Enum.GetValues(typeof(WeaponHash)))
             {
-                Game.Player.Character.Weapons.Give(weapon, 999, false, true);
+                GetCharacter().Weapons.Give(weapon, 999, false, true);
             }
         }
 
         public void RemoveAllWeapons(object sender, EventArgs e)
         {
-            Game.Player.Character.Weapons.RemoveAll();
+            GetCharacter().Weapons.RemoveAll();
         }
 
         /*
