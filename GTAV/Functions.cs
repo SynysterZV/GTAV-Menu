@@ -9,9 +9,12 @@ namespace GTAV
     {
         public MainMenuV Menu;
 
-        public Player Player { get; } = Game.Player;
-        public Ped Character { get; } = Game.Player.Character;
-        public Vehicle CurrentVehicle { get; } = Game.Player.Character.CurrentVehicle;
+        public Player Player { get { return Game.Player; } }
+        public Ped Character { get { return Game.Player.Character; } }
+        public Vehicle CurrentVehicle { 
+            get { return Game.Player.Character.CurrentVehicle; }
+            set { Game.Player.Character.SetIntoVehicle(value, VehicleSeat.Driver); }
+        }
 
         public Functions(MainMenuV menu)
         {
